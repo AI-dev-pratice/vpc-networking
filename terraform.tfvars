@@ -1,5 +1,3 @@
-terraform.tfvars
-
 names = {
   dev : {
     region   = "ap-south-1"

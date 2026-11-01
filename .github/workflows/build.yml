@@ -30,27 +30,23 @@ jobs:
       environment: dev
       working_directory: "./"
       tofu_version: "1.9.8"
-      aws_iam_role: ${{ secrets.AWS_IAM_ROLE }}
-      aws_region: "ap-south-1"
+      aws_iam_role: ${{ vars.AWS_IAM_ROLE }}
       runner: "ubuntu-latest"
       run_plan: true
       apply_on_main: true
-    secrets: inherit
 
-  prod:
-    name: Prod
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod' && github.ref == 'refs/heads/main' }}
-    uses: ./.github/workflows/opentofu-aws-reusable.yaml
-    with:
-      environment: prod
-      working_directory: "./"
-      tofu_version: "1.9.8"
-      aws_iam_role: ${{ secrets.AWS_IAM_ROLE }}
-      aws_region: "ap-south-1"
-      runner: "ubuntu-latest"
-      run_plan: true
-      apply_on_main: true
-    secrets: inherit
+#   prod:
+#     name: Prod
+#     if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod' && github.ref == 'refs/heads/main' }}
+#     uses: ./.github/workflows/opentofu-aws-reusable.yaml
+#     with:
+#       environment: prod
+#       working_directory: "./"
+#       tofu_version: "1.9.8"
+#       aws_iam_role: ${{ vars.AWS_IAM_ROLE }}
+#       runner: "ubuntu-latest"
+#       run_plan: true
+#       apply_on_main: true
 
   # destroy:
   #   runs-on: ubuntu-latest
