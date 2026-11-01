@@ -25,7 +25,7 @@ jobs:
   dev:
     name: Dev
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'dev' }}
-    uses: ./.github/workflows/opentofu-aws-reusable.yaml
+    uses: AI-dev-pratice/.github/.github/workflows/opentofu-aws-reusable.yaml@main
     with:
       environment: dev
       working_directory: "./"
