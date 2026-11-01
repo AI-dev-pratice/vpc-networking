@@ -22,40 +22,32 @@ permissions:
   id-token: write
 
 jobs:
-  # ------------------------------------------------------------
-  # DEV
-  #  - push (कोणताही branch) / pull_request (main): plan only
-  #  - workflow_dispatch + dev: plan + apply (फक्त main branch वर)
-  # ------------------------------------------------------------
   dev:
     name: Dev
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'dev' }}
-    uses: synechron/.github/.github/workflows/opentofu-finlabs-aws.yaml@main
+    uses: ./.github/workflows/opentofu-aws-reusable.yaml
     with:
       environment: dev
       working_directory: "./"
       tofu_version: "1.9.8"
       aws_iam_role: ${{ secrets.AWS_IAM_ROLE }}
+      aws_region: "ap-south-1"
       runner: "ubuntu-latest"
       run_plan: true
       apply_on_main: true
     secrets: inherit
 
-  # ------------------------------------------------------------
-  # PROD
-  #  - फक्त workflow_dispatch + prod + main branch
-  #  - environment: prod वर Required reviewers असल्यामुळे approval नंतरच चालेल
-  # ------------------------------------------------------------
   prod:
     name: Prod
     if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod' && github.ref == 'refs/heads/main' }}
-    uses: synechron/.github/.github/workflows/opentofu-finlabs-aws.yaml@main
+    uses: ./.github/workflows/opentofu-aws-reusable.yaml
     with:
       environment: prod
       working_directory: "./"
       tofu_version: "1.9.8"
       aws_iam_role: ${{ secrets.AWS_IAM_ROLE }}
-      runner: "finlabs-arc-prod"
+      aws_region: "ap-south-1"
+      runner: "ubuntu-latest"
       run_plan: true
       apply_on_main: true
     secrets: inherit
