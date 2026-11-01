@@ -27,12 +27,16 @@ jobs:
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'dev' }}
     uses: AI-dev-pratice/.github/.github/workflows/opentofu-aws-reusable.yaml@main
     with:
-      action: plan
-      environment: dev
-      working_directory: "./"
+      working_directory: "./"  
       tofu_version: "latest"
+      apply_on_main: false
+      run_plan: true
+      #action: plan
+      environment: dev
+      runner: ""
+      container_image: "ubuntu-latest"
       aws_iam_role: ${{ vars.AWS_IAM_ROLE }}
-      runner: "ubuntu-latest"
+    secrets: inherit
 
   deploy:
     name: Deploy (Apply) - dev
@@ -40,12 +44,16 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'dev') }}
     uses: AI-dev-pratice/.github/.github/workflows/opentofu-aws-reusable.yaml@main
     with:
-      action: apply
-      environment: dev
-      working_directory: "./"
+      working_directory: "./"  
       tofu_version: "latest"
+      apply_on_main: true
+      run_plan: false
+      #action: plan
+      environment: dev
+      runner: ""
+      container_image: "ubuntu-latest"
       aws_iam_role: ${{ vars.AWS_IAM_ROLE }}
-      runner: "ubuntu-latest"
+    secrets: inherit
 
   # destroy:
   #   runs-on: ubuntu-latest
