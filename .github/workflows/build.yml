@@ -30,7 +30,7 @@ jobs:
       action: plan
       environment: dev
       working_directory: "./"
-      tofu_version: "1.9.8"
+      tofu_version: "latest"
       aws_iam_role: ${{ vars.AWS_IAM_ROLE }}
       runner: "ubuntu-latest"
 
@@ -43,7 +43,7 @@ jobs:
       action: apply
       environment: dev
       working_directory: "./"
-      tofu_version: "1.9.8"
+      tofu_version: "latest"
       aws_iam_role: ${{ vars.AWS_IAM_ROLE }}
       runner: "ubuntu-latest"
 
